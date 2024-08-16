@@ -54,7 +54,13 @@
                     {{ daily[1].text || '' }}
                 </div>
             </div>
-            <div class="weather-right label-blod base-bgc" style="margin-left: 1rem;">空气质量</div>
+            <div class="weather-right  base-bgc" style="margin-left: 1rem;">
+                <div class="label-blod">空气质量</div>
+                <!-- 仪表盘 -->
+                <div ref="aircondiChart" class="aircondiChartBox border">
+                </div>
+                <div class="aircondiText">空气质量指数等级：{{ }}级</div>
+            </div>
         </div>
     </div>
 </template>
@@ -73,6 +79,7 @@ let cityShow = ref('北京');
 let weather = ref({});
 let location = ref();//城市位置id
 let daily = ref([]);//天气指数
+let aircondiChart = ref();//空气质量图
 
 //搜索功能
 let search = async () => {
@@ -110,7 +117,63 @@ let search = async () => {
 }
 onMounted(() => {
     // search()
+    aircondiChartInit();
 })
+
+
+//图标功能
+function chartInit() {
+    let mychart = echarts.init(chart.value);
+    let option = {};
+    mychart.setOption(option);
+}
+
+//空气质量aircondiChart
+function aircondiChartInit() {
+    let mychart = echarts.init(aircondiChart.value);
+    let option = {
+        autoResize: true,
+        tooltip: {
+            trigger: 'item'
+        },
+        series: [
+            {
+                type: "gauge",
+                max: 200,
+                radius: '100%',
+                title: {
+                    color: "#FED624"
+                },
+                data: [{
+                    value: 3,
+                    name: "良",
+                }],
+                axisLine: {
+                    lineStyle: {
+                        color: [[0.25, '#8cd2af'], [0.7, '#1EB04D'], [0.9, '#D73C31'], [2, '#6E2211']]
+                    }
+                },
+                label: {
+                    show: false  // 取消饼图上的文字标签
+                },
+                axisTick: {
+                    show: false  // 取消刻度线
+                },
+                axisLabel: {
+                    show: false  // 取消刻度文字
+                },
+                detail: {
+                    fontsize: 40,
+                    color: "#FED624",
+                    offsetCenter: [0, '-25%'],
+                    formatter:'{value}'
+                }
+            }
+        ]
+    };
+    mychart.setOption(option);
+}
+
 </script>
 
 <style scoped>

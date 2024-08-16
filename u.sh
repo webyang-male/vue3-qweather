@@ -1,6 +1,6 @@
 info=$1
 if ["$info" = ""];
-then info="feat:get city weather indices Data"
+then info="feat:add aircondition  chart"
 fi
 git add -A
 git commit -m "$info"
