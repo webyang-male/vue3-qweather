@@ -66,22 +66,33 @@ import key from "@/config";
 let city = ref('北京');
 let cityShow = ref('北京');
 let weather = ref({});
+let location = ref();
 
 //搜索功能
 let search = async () => {
     cityShow.value = city.value;
+    //获取城市location ID
+    let localID = await axios.get('https://geoapi.qweather.com/v2/city/lookup', {
+        params: {
+            key: key.apikey,
+            location: city.value
+        }
+    });
+
+    location.value = localID.data.location[0].id;
+
     let res = await axios.get('https://devapi.qweather.com/v7/weather/now', {
         params: {
             key: key.apikey,
-            location: '101010100'
+            location: location.value
         }
     })
     console.log(res)
     weather.value = res.data.now;
 }
-// onMounted(() => {
-//     search()
-// })
+onMounted(() => {
+    search()
+})
 </script>
 
 <style scoped>
