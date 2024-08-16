@@ -1,0 +1,90 @@
+/* 今日天气 */
+.todayWeatherWidth {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+/* 统一背景色 */
+.base-bgc {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 标题加粗 */
+.label-blod {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+  white-space: nowrap !important;
+}
+.weather {
+  margin: 1.5rem;
+}
+.weather-left {
+  flex: 3;
+  border-radius: 16px;
+  padding: 1rem;
+}
+.weather-right {
+  flex: 1;
+  border-radius: 16px;
+  padding: 1rem;
+}
+.weather-summary {
+  display: flex;
+  gap: 5px;
+  max-width: 80px;
+}
+.weather-summary img {
+  width: 5rem;
+  height: 5rem;
+  margin-right: 1rem;
+}
+
+/* 天气温度 */
+.weather-temp {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 72px;
+  color: #ffdab9;
+}
+.weather-temp span {
+  height: 100%;
+  line-height: 100%;
+  font-size: 25px;
+}
+.weather-describe {
+  min-width: 10rem;
+  margin-left: 2rem;
+  align-content: center;
+}
+.weather-text {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/* 体感温度 */
+.weather-feelslike {
+  font-size: 16px;
+}
+.weather-item {
+  margin-top: 1rem;
+}
+.weather-item ul {
+  display: flex;
+  padding: 0;
+}
+.weather-item li {
+  min-width: 3rem;
+  flex: 1;
+  text-align: center;
+}
+.item-tltle {
+  font-size: 12px;
+}
+.item-details {
+  font-size: 18px;
+  font-weight: bold;
+}

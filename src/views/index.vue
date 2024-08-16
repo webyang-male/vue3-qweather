@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <!-- 搜索框 -->
-        <div class="search">
+        <div class="search base-bgc">
             <div class="search-item weatherWidth">
                 <input type="text" placeholder="请输入城市名" v-model="city">
                 <i class="ri-search-eye-line" @click="search"></i>
@@ -9,18 +9,47 @@
         </div>
         <!-- 今日天气 -->
         <div class="weather todayWeatherWidth">
-            <div class="weather-left">
-                <div>{{ cityShow }}天气</div>
-                <div class="summary">
+            <div class="weather-left   base-bgc">
+                <div class="label-blod">{{ cityShow }}天气</div>
+                <div class="weather-summary">
                     <img :src="`/src/icons/${weather.icon}.svg`" alt="天气图标">
-                    <p>{{ weather.temp }}<span>℃</span></p>
-                    <div class="describe">
+                    <p class="weather-temp">{{ weather.temp }}<span>℃</span></p>
+                    <div class="weather-describe">
                         <div class="weather-text">{{ weather.text }}</div>
-                        <div class="weather-feelslike">{{ weather.feelsLike }}°</div>
+                        <div class="weather-feelslike">体感温度&ensp;{{ weather.feelsLike }}°</div>
                     </div>
                 </div>
+                <!-- 天气细节展示列表 -->
+                <div class="weather-item">
+                    <ul>
+                        <li>
+                            <div class="item-tltle">风向</div>
+                            <div class="item-details">{{ weather.windDir }}</div>
+                        </li>
+                        <li>
+                            <div class="item-tltle">风力等级</div>
+                            <div class="item-details">{{ weather.windScale }}&nbsp;级</div>
+                        </li>
+                        <li>
+                            <div class="item-tltle">相对湿度</div>
+                            <div class="item-details">{{ weather.humidity }}&nbsp;%</div>
+                        </li>
+                        <li>
+                            <div class="item-tltle">大气压强</div>
+                            <div class="item-details">{{ weather.pressure }}&nbsp;Pa</div>
+                        </li>
+                        <li>
+                            <div class="item-tltle">能见度</div>
+                            <div class="item-details">{{ weather.vis }}&nbsp;Km</div>
+                        </li>
+                        <li>
+                            <div class="item-tltle">云量</div>
+                            <div class="item-details">{{ weather.cloud }}&nbsp;%</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="weather-right" style="margin-left: 1rem;">空气质量</div>
+            <div class="weather-right label-blod base-bgc" style="margin-left: 1rem;">空气质量</div>
         </div>
     </div>
 </template>
@@ -31,6 +60,7 @@ import { onMounted, ref } from "vue";
 import * as echarts from 'echarts';
 import axios from "axios";
 import key from "@/config";
+
 
 //设置初始值
 let city = ref('北京');
@@ -61,7 +91,6 @@ let search = async () => {
 }
 
 .search {
-    background-color: rgba(255, 255, 255, .1);
     padding: 1rem;
 }
 
@@ -87,12 +116,5 @@ i {
 input {
     width: 80%;
     border: 0;
-}
-
-/* 今日天气 */
-.todayWeatherWidth {
-    display: flex;
-    justify-content: left;
-    width: 100%;
 }
 </style>
