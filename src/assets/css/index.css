@@ -38,6 +38,7 @@
   width: 5rem;
   height: 5rem;
   margin-right: 1rem;
+  margin-left: 3.5rem;
 }
 
 /* 天气温度 */
@@ -47,7 +48,7 @@
   margin: 0;
   font-size: 72px;
   font-weight: 600;
-  line-height: 72px;
+  line-height: 80px;
   color: #ffdab9;
 }
 .weather-temp span {
@@ -87,4 +88,9 @@
 .item-details {
   font-size: 18px;
   font-weight: bold;
+}
+/* 天气指数 */
+.weatherDaily{
+    text-indent: 2em;
+    text-align: start;
 }

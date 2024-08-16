@@ -48,6 +48,11 @@
                         </li>
                     </ul>
                 </div>
+                <!-- 天气指数 -->
+                <div class="weatherDaily" v-if="daily.length >= 2">
+                    {{ daily[0].text || '暂无天气指数信息' }}
+                    {{ daily[1].text || '' }}
+                </div>
             </div>
             <div class="weather-right label-blod base-bgc" style="margin-left: 1rem;">空气质量</div>
         </div>
@@ -66,7 +71,8 @@ import key from "@/config";
 let city = ref('北京');
 let cityShow = ref('北京');
 let weather = ref({});
-let location = ref();
+let location = ref();//城市位置id
+let daily = ref([]);//天气指数
 
 //搜索功能
 let search = async () => {
@@ -81,17 +87,29 @@ let search = async () => {
 
     location.value = localID.data.location[0].id;
 
+    //获取对应ID城市天气数据
     let res = await axios.get('https://devapi.qweather.com/v7/weather/now', {
         params: {
             key: key.apikey,
             location: location.value
         }
     })
-    console.log(res)
+    console.log(res);
     weather.value = res.data.now;
+
+    //获取天气指数
+    let indicesData = await axios.get('https://devapi.qweather.com/v7/indices/1d', {
+        params: {
+            key: key.apikey,
+            location: location.value,
+            type: '3,5',//生活指数类型，参考https://dev.qweather.com/docs/resource/indices-info/
+        }
+    })
+    daily.value = indicesData.data.daily;
+    // console.log(daily.value)
 }
 onMounted(() => {
-    search()
+    // search()
 })
 </script>
 
