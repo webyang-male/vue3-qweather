@@ -59,9 +59,88 @@
                 <!-- 仪表盘 -->
                 <div ref="aircondiChart" class="aircondiChartBox">
                 </div>
-                <div class="aircondiText" v-if="airData">空气质量指数等级：<b style="color: #FFE5B4;">{{ airData.level}}</b>&ensp;级</div>
+                <div class="aircondiText" v-if="airData">空气质量指数等级：<b style="color: #FFE5B4;">{{
+                    airData.level }}</b>&ensp;级</div>
                 <div class="aircondiText" v-else>空气质量指数等级：-1 级</div>
             </div>
+        </div>
+        <!-- 生活指数 -->
+        <div class="livingIndex base-bgc">
+            <div class="label-blod living-title">生活指数</div>
+            <ul class="livingIndex-content border">
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconpaobukuai"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconclothes-full"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconyueyanglvyou"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconganmao"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconxiche-cuxiantiao"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont icondiaoyuzhishu"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconguominshi"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="daily-icon">
+                        <i class="iconfont iconsun-uv_1"></i>
+                    </div>
+                    <div class="daily-box">
+                        <p class="daily-box-name">name</p>
+                        <p class="daily-box-text">text</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -73,10 +152,9 @@ import * as echarts from 'echarts';
 import axios from "axios";
 import key from "@/config";
 
-
 //设置初始值
-let city = ref('北京');
-let cityShow = ref('北京');
+let city = ref('深圳');
+let cityShow = ref('深圳');
 let weather = ref({});
 let location = ref();//城市位置id
 let daily = ref([]);//天气指数
@@ -118,17 +196,6 @@ let search = async () => {
     // console.log(daily.value)
 
     //空气质量 
-    // let airquality = await axios.get('https://devapi.qweather.com/v7/air/now', {
-    //     params: {
-    //         key: key.apikey,
-    //         location: location.value
-    //     }
-    // })
-    // console.log('airquality', airquality)
-    // airData.value = airquality.data.now;
-    // console.log('airData',airData.value)
-
-
     await axios.get('https://devapi.qweather.com/v7/air/now', {
         params: {
             key: key.apikey,
@@ -140,7 +207,7 @@ let search = async () => {
         aircondiChartInit();
     });
 
-    console.log('airData.value:', airData.value, '空气质量等级:',airData.value.level)
+    console.log('airData.value:', airData.value, '空气质量等级:', airData.value.level)
 }
 
 // 调用 search 函数并获取返回值 

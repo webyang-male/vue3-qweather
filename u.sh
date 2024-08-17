@@ -1,6 +1,6 @@
 info=$1
 if ["$info" = ""];
-then info="feat:finished aircondition  chart"
+then info="update:finished the structure of living index"
 fi
 git add -A
 git commit -m "$info"

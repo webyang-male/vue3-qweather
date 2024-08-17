@@ -1,0 +1,48 @@
+@font-face {
+    font-family: "iconfont"; /* Project id 1865146 */
+    src: url('//at.alicdn.com/t/c/font_1865146_rm4ei69261c.woff2?t=1723902460241') format('woff2'),
+         url('//at.alicdn.com/t/c/font_1865146_rm4ei69261c.woff?t=1723902460241') format('woff'),
+         url('//at.alicdn.com/t/c/font_1865146_rm4ei69261c.ttf?t=1723902460241') format('truetype'),
+         url('//at.alicdn.com/t/c/font_1865146_rm4ei69261c.svg?t=1723902460241#iconfont') format('svg');
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .iconxiche-cuxiantiao:before {
+    content: "\e69a";
+  }
+  
+  .iconganmao:before {
+    content: "\e708";
+  }
+  
+  .iconguominshi:before {
+    content: "\e697";
+  }
+  
+  .iconclothes-full:before {
+    content: "\e8c7";
+  }
+  
+  .iconpaobukuai:before {
+    content: "\e6dc";
+  }
+  
+  .icondiaoyuzhishu:before {
+    content: "\e694";
+  }
+  
+  .iconsun-uv_1:before {
+    content: "\e608";
+  }
+  
+  .iconyueyanglvyou:before {
+    content: "\e60b";
+  }
+  

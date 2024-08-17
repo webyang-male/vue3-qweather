@@ -118,17 +118,29 @@ async function aircondiChartInit() {
   }
 }
 
-
-let airquality = await axios.get('https://devapi.qweather.com/v7/air/now', {
+let airquality = await axios
+  .get("https://devapi.qweather.com/v7/air/now", {
     params: {
-        key: key.apikey,
-        location: location.value
-    }
-}).then((response) => {
+      key: key.apikey,
+      location: location.value,
+    },
+  })
+  .then((response) => {
     airData.value = response.data.now;
     // console.log(airData.value)
-}).then(() => {
+  })
+  .then(() => {
     aircondiChartInit();
-});
-console.log('airquality', airquality)
-// airData.level ? airData.level : '-1' 
+  });
+console.log("airquality", airquality);
+// airData.level ? airData.level : '-1'
+
+// let airquality = await axios.get('https://devapi.qweather.com/v7/air/now', {
+//     params: {
+//         key: key.apikey,
+//         location: location.value
+//     }
+// })
+// console.log('airquality', airquality)
+// airData.value = airquality.data.now;
+// console.log('airData',airData.value)

@@ -50,6 +50,13 @@ input:focus {
 .border {
   border: 1px solid red;
 }
+ul {
+  padding: 0;
+}
 li {
   list-style: none;
+  padding: 0%;
+}
+i {
+  color: #ffffff;
 }
