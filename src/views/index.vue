@@ -67,7 +67,7 @@
         <!-- 生活指数 -->
         <div class="livingIndex base-bgc">
             <div class="label-blod living-title">生活指数</div>
-            <ul class="livingIndex-content border">
+            <ul class="livingIndex-content">
                 <li>
                     <div class="daily-icon">
                         <i class="iconfont iconpaobukuai"></i>
