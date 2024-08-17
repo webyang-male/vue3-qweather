@@ -57,9 +57,10 @@
             <div class="weather-right  base-bgc" style="margin-left: 1rem;">
                 <div class="label-blod">空气质量</div>
                 <!-- 仪表盘 -->
-                <div ref="aircondiChart" class="aircondiChartBox border">
+                <div ref="aircondiChart" class="aircondiChartBox">
                 </div>
-                <div class="aircondiText">空气质量指数等级：{{ }}级</div>
+                <div class="aircondiText" v-if="airData">空气质量指数等级：<b style="color: #FFE5B4;">{{ airData.level}}</b>&ensp;级</div>
+                <div class="aircondiText" v-else>空气质量指数等级：-1 级</div>
             </div>
         </div>
     </div>
@@ -80,6 +81,7 @@ let weather = ref({});
 let location = ref();//城市位置id
 let daily = ref([]);//天气指数
 let aircondiChart = ref();//空气质量图
+let airData = ref();//空气质量数据
 
 //搜索功能
 let search = async () => {
@@ -114,14 +116,42 @@ let search = async () => {
     })
     daily.value = indicesData.data.daily;
     // console.log(daily.value)
+
+    //空气质量 
+    // let airquality = await axios.get('https://devapi.qweather.com/v7/air/now', {
+    //     params: {
+    //         key: key.apikey,
+    //         location: location.value
+    //     }
+    // })
+    // console.log('airquality', airquality)
+    // airData.value = airquality.data.now;
+    // console.log('airData',airData.value)
+
+
+    await axios.get('https://devapi.qweather.com/v7/air/now', {
+        params: {
+            key: key.apikey,
+            location: location.value
+        }
+    }).then((response) => {
+        airData.value = response.data.now;
+    }).then(() => {
+        aircondiChartInit();
+    });
+
+    console.log('airData.value:', airData.value, '空气质量等级:',airData.value.level)
 }
-onMounted(() => {
-    // search()
-    aircondiChartInit();
-})
 
+// 调用 search 函数并获取返回值 
+// async function callerFunction() {
+//   let returnedAirData = await search();
+//   // 对返回的 airData 进行操作
+//   console.log('returnedAirData',returnedAirData.value.level);
+// }
+// callerFunction();
 
-//图标功能
+//图表功能
 function chartInit() {
     let mychart = echarts.init(chart.value);
     let option = {};
@@ -131,48 +161,61 @@ function chartInit() {
 //空气质量aircondiChart
 function aircondiChartInit() {
     let mychart = echarts.init(aircondiChart.value);
+    // console.log(airData.value)
     let option = {
         autoResize: true,
         tooltip: {
-            trigger: 'item'
+            trigger: "item",
         },
         series: [
             {
                 type: "gauge",
                 max: 200,
-                radius: '100%',
+                radius: "100%",
                 title: {
-                    color: "#FED624"
+                    color: "#FED624",
                 },
-                data: [{
-                    value: 3,
-                    name: "良",
-                }],
+                data: [
+                    {
+                        value: airData.value.aqi,
+                        name: airData.value.category,
+                    },
+                ],
                 axisLine: {
                     lineStyle: {
-                        color: [[0.25, '#8cd2af'], [0.7, '#1EB04D'], [0.9, '#D73C31'], [2, '#6E2211']]
-                    }
+                        color: [
+                            [0.25, "#8cd2af"],
+                            [0.7, "#1EB04D"],
+                            [0.9, "#D73C31"],
+                            [2, "#6E2211"],
+                        ],
+                    },
                 },
                 label: {
-                    show: false  // 取消饼图上的文字标签
+                    show: false, // 取消饼图上的文字标签
                 },
                 axisTick: {
-                    show: false  // 取消刻度线
+                    show: false, // 取消刻度线
                 },
                 axisLabel: {
-                    show: false  // 取消刻度文字
+                    show: false, // 取消刻度文字
                 },
                 detail: {
                     fontsize: 40,
                     color: "#FED624",
-                    offsetCenter: [0, '-25%'],
-                    formatter:'{value}'
-                }
-            }
-        ]
+                    offsetCenter: [0, "-25%"],
+                    formatter: "{value}",
+                },
+            },
+        ],
     };
     mychart.setOption(option);
 }
+
+
+onMounted(() => {
+    search();
+})
 
 </script>
 
