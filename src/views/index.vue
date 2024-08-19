@@ -150,6 +150,13 @@
                 </li>
             </ul>
         </div>
+
+        <!-- 小时预报 -->
+        <div class="hourlyForecast base-bgc">
+            <div class="label-blod">小时天气</div>
+            <!-- 图表 -->
+            <div ref="hourWeatherChart" class="hourWeatherChartContainer"></div>
+        </div>
     </div>
 </template>
 
@@ -168,6 +175,7 @@ let location = ref();//城市位置id
 let daily = ref([]);//天气指数
 let aircondiChart = ref();//空气质量图
 let airData = ref();//空气质量数据
+let hourWeatherChart = ref();//空气质量图
 
 //搜索功能
 let search = async () => {
@@ -228,10 +236,51 @@ let search = async () => {
 // }
 // callerFunction();
 
-//图表功能
-function chartInit() {
-    let mychart = echarts.init(chart.value);
-    let option = {};
+//小时天气图表
+function hourchartInit() {
+    let mychart = echarts.init(hourWeatherChart.value);
+    let option = {
+        textStyle: {
+            color: '#fff', // 标签字体颜色
+            // fontSize: 14, // 标签字体大小
+            fontWeight: 'bold', // 标签字体加粗
+            fontStyle: 'italic', // 标签字体斜体
+            fontFamily: 'Arial' // 标签字体
+        },
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            // axisLine: {
+            //     lineStyle: {
+            //         color: 'white'
+            //     }
+            // },
+        },
+        yAxis: {
+            type: 'value'
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '1%',
+            containLabel: true
+        },
+        series: [
+            {
+                data: [120, 200, 150, 80, 70, 110, 130],
+                type: 'bar',
+                barWidth: '40%',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }, 
+                itemStyle: {
+                    // 设置柱状图的颜色
+                    color: 'rgb(22, 164, 255)'
+                }
+            }
+        ]
+    };
     mychart.setOption(option);
 }
 
@@ -292,6 +341,7 @@ function aircondiChartInit() {
 
 onMounted(() => {
     search();
+    hourchartInit();
 })
 
 </script>
