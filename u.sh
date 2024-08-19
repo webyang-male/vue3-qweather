@@ -1,6 +1,6 @@
 info=$1
 if ["$info" = ""];
-then info="feat:Beautification of the style of the living index"
+then info="feat:finished data of the living index page"
 fi
 git add -A
 git commit -m "$info"

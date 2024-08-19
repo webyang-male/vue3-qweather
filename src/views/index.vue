@@ -36,7 +36,7 @@
                         </li>
                         <li>
                             <div class="item-tltle">大气压强</div>
-                            <div class="item-details">{{ weather.pressure }}&nbsp;Pa</div>
+                            <div class="item-details">{{ weather.pressure }}&nbsp;hPa</div>
                         </li>
                         <li>
                             <div class="item-tltle">能见度</div>
@@ -50,8 +50,8 @@
                 </div>
                 <!-- 天气指数 -->
                 <div class="weatherDaily" v-if="daily.length >= 2">
-                    {{ daily[0].text || '暂无天气指数信息' }}
-                    {{ daily[1].text || '' }}
+                    {{ daily[2].text || '暂无天气指数信息' }}
+                    {{ daily[4].text || '' }}
                 </div>
             </div>
             <div class="weather-right  base-bgc" style="margin-left: 1rem;">
@@ -73,8 +73,9 @@
                         <i class="iconfont iconpaobukuai"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[0].name }}&ensp;{{ daily[0].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[0].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -82,8 +83,9 @@
                         <i class="iconfont iconclothes-full"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[2].name }}&ensp;{{ daily[2].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[2].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -91,8 +93,9 @@
                         <i class="iconfont iconyueyanglvyou"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[5].name }}&ensp;{{ daily[5].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[5].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -100,8 +103,9 @@
                         <i class="iconfont iconganmao"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[8].name }}&ensp;{{ daily[8].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[8].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -109,8 +113,9 @@
                         <i class="iconfont iconxiche-cuxiantiao"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[1].name }}&ensp;{{ daily[1].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[1].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -118,8 +123,9 @@
                         <i class="iconfont icondiaoyuzhishu"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[3].name }}&ensp;{{ daily[3].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[3].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -127,8 +133,9 @@
                         <i class="iconfont iconguominshi"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[6].name }}&ensp;{{ daily[6].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[6].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
                 <li>
@@ -136,8 +143,9 @@
                         <i class="iconfont iconsun-uv_1"></i>
                     </div>
                     <div class="daily-box">
-                        <p class="daily-box-name">name</p>
-                        <p class="daily-box-text">text</p>
+                        <p class="daily-box-name" v-if="daily.length >= 1">{{ daily[4].name }}&ensp;{{ daily[4].category
+                            }}</p>
+                        <p class="daily-box-text" v-if="daily.length >= 1">{{ daily[4].text || '暂无该天气指标建议信息' }}</p>
                     </div>
                 </li>
             </ul>
@@ -182,18 +190,20 @@ let search = async () => {
         }
     })
     console.log(res);
+
     weather.value = res.data.now;
+    console.log('对应ID城市天气数据', weather.value);
 
     //获取天气指数
     let indicesData = await axios.get('https://devapi.qweather.com/v7/indices/1d', {
         params: {
             key: key.apikey,
             location: location.value,
-            type: '3,5',//生活指数类型，参考https://dev.qweather.com/docs/resource/indices-info/
+            type: '0',//生活指数类型，参考https://dev.qweather.com/docs/resource/indices-info/
         }
     })
     daily.value = indicesData.data.daily;
-    // console.log(daily.value)
+    console.log('天气指数', daily.value)
 
     //空气质量 
     await axios.get('https://devapi.qweather.com/v7/air/now', {
@@ -207,7 +217,7 @@ let search = async () => {
         aircondiChartInit();
     });
 
-    console.log('airData.value:', airData.value, '空气质量等级:', airData.value.level)
+    //console.log('airData.value:', airData.value, '空气质量等级:', airData.value.level)
 }
 
 // 调用 search 函数并获取返回值 
