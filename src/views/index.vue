@@ -4,7 +4,7 @@
         <div class="search base-bgc">
             <div class="search-item weatherWidth">
                 <input type="text" placeholder="请输入城市名" v-model="city">
-                <i class="ri-search-eye-line" @click="search"></i>
+                <i class="ri-search-eye-line searchIco" @click="search"></i>
             </div>
         </div>
         <!-- 今日天气 -->
@@ -176,6 +176,7 @@ let daily = ref([]);//天气指数
 let aircondiChart = ref();//空气质量图
 let airData = ref();//空气质量数据
 let hourWeatherChart = ref();//空气质量图
+let hourly_Temp = ref([]);//存储每小时天气数据
 
 //搜索功能
 let search = async () => {
@@ -197,7 +198,6 @@ let search = async () => {
             location: location.value
         }
     })
-    console.log(res);
 
     weather.value = res.data.now;
     console.log('对应ID城市天气数据', weather.value);
@@ -226,6 +226,20 @@ let search = async () => {
     });
 
     //console.log('airData.value:', airData.value, '空气质量等级:', airData.value.level)
+
+    //每小时天气数据
+    await axios.get('https://devapi.qweather.com/v7/weather/24h', {
+        params: {
+            key: key.apikey,
+            location: location.value
+        }
+    }).then((response) => {
+        hourly_Temp.value = response.data.hourly.slice(0, 10);
+        // console.log('每小时天气数据', hourly_Temp.value)
+    }).then(() => {
+        hourchartInit();
+    });
+
 }
 
 // 调用 search 函数并获取返回值 
@@ -240,6 +254,7 @@ let search = async () => {
 function hourchartInit() {
     let mychart = echarts.init(hourWeatherChart.value);
     let option = {
+        tooltip: {},
         textStyle: {
             color: '#fff', // 标签字体颜色
             // fontSize: 14, // 标签字体大小
@@ -249,7 +264,7 @@ function hourchartInit() {
         },
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: hourly_Temp.value.map(item => item.fxTime.substring(11, 16)),
             // axisLine: {
             //     lineStyle: {
             //         color: 'white'
@@ -267,16 +282,23 @@ function hourchartInit() {
         },
         series: [
             {
-                data: [120, 200, 150, 80, 70, 110, 130],
+                name: "气温",
+                data: hourly_Temp.value.map(item => item.temp),
                 type: 'bar',
                 barWidth: '40%',
                 showBackground: true,
                 backgroundStyle: {
-                    color: 'rgba(180, 180, 180, 0.2)'
-                }, 
+                    color: 'rgba(209, 237, 232,.2)'
+                },
                 itemStyle: {
                     // 设置柱状图的颜色
                     color: 'rgb(22, 164, 255)'
+                },
+                label: {
+                    show: true,
+                    position: "top",
+                    color: "#fff",
+                    formatter: '{c}℃',
                 }
             }
         ]
@@ -341,7 +363,7 @@ function aircondiChartInit() {
 
 onMounted(() => {
     search();
-    hourchartInit();
+    // hourchartInit();
 })
 
 </script>
